@@ -13,7 +13,7 @@
 AlgoStack — Production Multi-Process Trading Platform
 
 29k+ lines | 16 concurrent processes | GPU accelerated | self-healing infrastructure
-### Algorithmic Signal Engine & Live Trading Dashboard for Indian Markets
+### Algorithmic Signal Engine & Live Trading Dashboard for Indian Markets , Crypto soon International Markets
 
 **NSE Equity · MCX Commodity · Crypto (Binance)**
 
