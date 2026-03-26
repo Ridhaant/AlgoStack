@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: algostack
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
+    # Free tier ≈512MB: render-full (16 procs) OOMs → 502. Lite fits; set
+    # AUTOHEALER_PROFILE=render-full only if you upgrade instance RAM.
+    dockerCommand: python -X utf8 -u autohealer.py --profile render-lite
+    envVars:
+      - key: AUTOHEALER_PROFILE
+        value: "render-lite"
+      - key: DISABLE_WIFI_KEEPALIVE
+        value: "1"
+      - key: DISABLE_AFFINITY
+        value: "1"
+      - key: DISABLE_PUBLIC_TUNNEL
+        value: "1"
+      - key: DISABLE_CLOUDFLARE
+        value: "1"
+      - key: DISABLE_PYNGROK
+        value: "1"
+      - key: TUNNEL_STABLE_MODE
+        value: "1"
+      - key: FORCE_JSON_IPC
+        value: "1"
+      - key: PUBLIC_BASE_URL
+        value: "https://algostack.onrender.com"
+      - key: PUBLIC_LINK_PASSWORD
+        value: "Ridz@2004"
+      - key: TZ
+        value: "Asia/Kolkata"

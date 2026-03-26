@@ -1,0 +1,34 @@
+services:
+  algostack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: algostack
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    environment:
+      - TZ=Asia/Kolkata
+      - AUTOHEALER_PROFILE=${AUTOHEALER_PROFILE:-render-full}
+      - DISABLE_AFFINITY=${DISABLE_AFFINITY:-1}
+      - FORCE_JSON_IPC=${FORCE_JSON_IPC:-1}
+      # Keep tunnel providers disabled in always-on VPS mode.
+      - DISABLE_CLOUDFLARE=1
+      - DISABLE_PYNGROK=1
+      - TUNNEL_STABLE_MODE=1
+      # Optional: override via host env if needed
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - PUBLIC_LINK_PASSWORD=${PUBLIC_LINK_PASSWORD:-}
+      # Enterprise auth (optional): set to 1 and provide secret + bootstrap user
+      - ALGOSTACK_AUTH_ENABLED=${ALGOSTACK_AUTH_ENABLED:-0}
+      - ALGOSTACK_SECRET_KEY=${ALGOSTACK_SECRET_KEY:-}
+      - ALGOSTACK_BOOTSTRAP_ADMIN_EMAIL=${ALGOSTACK_BOOTSTRAP_ADMIN_EMAIL:-}
+      - ALGOSTACK_BOOTSTRAP_ADMIN_PASSWORD=${ALGOSTACK_BOOTSTRAP_ADMIN_PASSWORD:-}
+      - ALGOSTACK_SESSION_COOKIE_SECURE=${ALGOSTACK_SESSION_COOKIE_SECURE:-0}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./levels:/app/levels
+      - ./sweep_results:/app/sweep_results
+      - ./x_optimizer_results:/app/x_optimizer_results
