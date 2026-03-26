@@ -1,7 +1,4 @@
-# AlgoStack
-AlgoStack — Production Multi-Process Trading Platform
 
-29k+ lines | 16 concurrent processes | GPU accelerated | self-healing infrastructure
 <div align="center">
 
 ```
@@ -12,7 +9,10 @@ AlgoStack — Production Multi-Process Trading Platform
 ██║  ██║███████╗╚██████╔╝╚██████╔╝███████║   ██║   ██║  ██║╚██████╗██║  ██╗
 ╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 ```
+# AlgoStack
+AlgoStack — Production Multi-Process Trading Platform
 
+29k+ lines | 16 concurrent processes | GPU accelerated | self-healing infrastructure
 ### Algorithmic Signal Engine & Live Trading Dashboard for Indian Markets
 
 **NSE Equity · MCX Commodity · Crypto (Binance)**
@@ -38,7 +38,7 @@ AlgoStack — Production Multi-Process Trading Platform
 
 ## ✦ What is AlgoStack?
 
-**AlgoStack v9.0** is a production-grade, self-hosted algorithmic research and alerting platform purpose-built for **Indian retail and professional traders**. It ingests live price data across three asset classes, computes level-based entry/exit signals using a proprietary **X-Multiplier engine**, delivers instant **Telegram push alerts**, and surfaces everything through a rich **Plotly-Dash web dashboard** — all running on your own machine or a ₹500/month VPS.
+**AlgoStack v10.0** is a production-grade, self-hosted algorithmic research and alerting platform purpose-built for **Indian retail and professional traders**. It ingests live price data across three asset classes, computes level-based entry/exit signals using a proprietary **X-Multiplier engine**, delivers instant **Telegram push alerts**, and surfaces everything through a rich **Plotly-Dash web dashboard** — all running on your own machine or a ₹500/month VPS.
 
 No SaaS fees. No data vendor lock-in. You own every line of it.
 
