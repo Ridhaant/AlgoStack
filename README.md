@@ -151,22 +151,22 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 │                                                                        │
 │  start_all.sh / start_all.bat                                          │
 │        │                                                               │
-│        ├─── Algofinal.py           ←  Equity engine  + ZMQ price pub  │
-│        ├─── commodity_engine.py    ←  MCX feed       + ZMQ price pub  │
-│        ├─── crypto_engine.py       ←  Binance WS     + ZMQ price pub  │
+│        ├─── Algofinal.py           ←  Equity engine  + ZMQ price pub   │
+│        ├─── commodity_engine.py    ←  MCX feed       + ZMQ price pub   │
+│        ├─── crypto_engine.py       ←  Binance WS     + ZMQ price pub   │
 │        │                                                               │
-│        ├─── scanner1/2/3.py        ←  Equity scanners (parallel)      │
+│        ├─── scanner1/2/3.py        ←  Equity scanners (parallel)       │
 │        ├─── commodity_scanner1/2/3.py                                  │
 │        ├─── crypto_scanner1/2/3.py                                     │
 │        │                                                               │
-│        ├─── unified_dash_v3.py     ←  Main dashboard     :8055        │
-│        ├─── news_dashboard.py      ←  News / sentiment   :8070        │
-│        ├─── alert_monitor.py       ←  Feed health + EOD checks        │
-│        ├─── autohealer.py          ←  Process watchdog                │
-│        └─── wifi_keepalive.py      ←  Network watchdog                │
+│        ├─── unified_dash_v3.py     ←  Main dashboard     :8055         │
+│        ├─── news_dashboard.py      ←  News / sentiment   :8070         │
+│        ├─── alert_monitor.py       ←  Feed health + EOD checks         │
+│        ├─── autohealer.py          ←  Process watchdog                 │
+│        └─── wifi_keepalive.py      ←  Network watchdog                 │
 │                                                                        │
-│  IPC :  ZMQ PUB/SUB   tcp://127.0.0.1:28081  SNDHWM=2  SNDTIMEO=5ms  │
-│  Data:  levels/live_prices.json  +  trade_logs/*.jsonl                │
+│  IPC :  ZMQ PUB/SUB   tcp://127.0.0.1:28081  SNDHWM=2  SNDTIMEO=5ms    │
+│  Data:  levels/live_prices.json  +  trade_logs/*.jsonl                 │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
