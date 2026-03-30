@@ -1,23 +1,23 @@
-
 <div align="center">
 
 ```
  █████╗ ██╗      ██████╗  ██████╗ ███████╗████████╗ █████╗  ██████╗██╗  ██╗
 ██╔══██╗██║     ██╔════╝ ██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-███████║██║     ██║  ███╗██║   ██║███████╗   ██║   ███████║██║     █████╔╝ 
-██╔══██║██║     ██║   ██║██║   ██║╚════██║   ██║   ██╔══██║██║     ██╔═██╗ 
+███████║██║     ██║  ███╗██║   ██║███████╗   ██║   ███████║██║     █████╔╝
+██╔══██║██║     ██║   ██║██║   ██║╚════██║   ██║   ██╔══██║██║     ██╔═██╗
 ██║  ██║███████╗╚██████╔╝╚██████╔╝███████║   ██║   ██║  ██║╚██████╗██║  ██╗
 ╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 ```
-# AlgoStack
-AlgoStack — Production Multi-Process Trading Platform
 
-29k+ lines | 16 concurrent processes | GPU accelerated | self-healing infrastructure
-### Algorithmic Signal Engine & Live Trading Dashboard for Indian Markets , Crypto soon International Markets
+# AlgoStack v10.7
+
+**Production Multi-Process Algorithmic Trading & Research Platform**
+
+*30,595 lines · 16 concurrent processes · GPU accelerated · self-healing infrastructure*
 
 **NSE Equity · MCX Commodity · Crypto (Binance)**
 
-[![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Python](https://img.shields.io/badge/Python-3.10%20|%203.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Plotly Dash](https://img.shields.io/badge/Plotly_Dash-2.17+-119DFF?style=for-the-badge&logo=plotly&logoColor=white)](https://dash.plotly.com)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
 [![ZeroMQ](https://img.shields.io/badge/ZeroMQ-IPC_Bus-DF0000?style=for-the-badge&logo=zeromq&logoColor=white)](https://zeromq.org)
@@ -30,7 +30,7 @@ AlgoStack — Production Multi-Process Trading Platform
 
 <br/>
 
-[📸 Screenshots](#-dashboard-overview) · [⚡ Quickstart](#-installation) · [🏗 Architecture](#-architecture) · [🔧 Configuration](#-configuration) · [🐳 Docker](#-docker)
+[📸 Dashboard](#-dashboard-overview) · [⚡ Quickstart](#-installation) · [🏗 Architecture](#-architecture) · [🔧 Configuration](#-configuration) · [🐳 Docker](#-docker) · [👤 Author](#-author)
 
 </div>
 
@@ -48,7 +48,28 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-> ⚠️ **Disclaimer** — AlgoStack is a *research and alerting* tool. It does **not** place orders automatically. All trading decisions remain entirely with the user. Past signal performance does not guarantee future results.
+> ⚠️ **Disclaimer** — AlgoStack is a *research and alerting* tool. It does **not** place orders automatically. All trading decisions remain with the user.
+
+---
+
+## ✦ Key Numbers
+
+<div align="center">
+
+| Metric | Value |
+|--------|-------|
+| Total lines of Python | **30,595** |
+| Concurrent processes | **16** |
+| GPU strategy evaluations / tick | **2,352,000** |
+| CuPy sweep latency (GTX 1650) | **< 1ms** |
+| NSE equity symbols | **38** |
+| MCX commodity feeds | **5** |
+| Crypto pairs (Binance WS) | **5** |
+| Enterprise auth codebase | **1,459 lines** |
+| Self-healing watchdog | **1,025 lines** |
+| CPU cores pinned (i5-12450H) | **10** |
+
+</div>
 
 ---
 
@@ -89,7 +110,7 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 
 ### 🔔 Intelligent Alert System
 - Telegram push for entries, exits, EOD summaries, feed health
-- `alert_monitor.py` continuously cross-checks live prices vs dashboard
+- `alert_monitor.py` cross-checks live prices vs dashboard continuously
 - Detects stale feeds, dangling positions after market close, P&L drift
 - Sends tunnel URL to Telegram every time it changes
 
@@ -103,17 +124,18 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 - **TOTP 2FA** via PyOTP (Google Authenticator compatible)
 - Password reset via Gmail App Password / SMTP
 - **Google OAuth** single sign-on
-- Enable with a single env var: `ALGOSTACK_AUTH_ENABLED=1`
+- RBAC: admin / analyst / client_readonly
+- Enable with one env var: `ALGOSTACK_AUTH_ENABLED=1`
 
 </td>
 <td width="50%">
 
 ### ⚙️ Self-Healing Infrastructure
 - `autohealer.py` watchdog auto-restarts any crashed process
-- `wifi_keepalive.py` network watchdog prevents silent feed drops
-- `log_manager.py` rotates and purges stale logs automatically
+- **Market-calendar-aware** — no restarts on NSE/MCX holidays
+- `wifi_keepalive.py` re-authenticates captive portal automatically
+- `log_manager.py` rotates and purges stale logs
 - `process_affinity.py` pins processes to CPU cores (Windows)
-- `resource_plan.py` models RAM/CPU usage before launch
 
 </td>
 </tr>
@@ -143,16 +165,38 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 │        ├─── autohealer.py          ←  Process watchdog                │
 │        └─── wifi_keepalive.py      ←  Network watchdog                │
 │                                                                        │
-│  IPC :  ZMQ PUB/SUB   tcp://127.0.0.1:28081                           │
+│  IPC :  ZMQ PUB/SUB   tcp://127.0.0.1:28081  SNDHWM=2  SNDTIMEO=5ms  │
 │  Data:  levels/live_prices.json  +  trade_logs/*.jsonl                │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Key design decisions:**
 - **Zero shared database** — engines write flat JSON/JSONL; dashboard polls on a fast/slow cycle
-- **ZMQ PUB/SUB** for low-latency inter-process price distribution
+- **ZMQ PUB/SUB** with SNDHWM=2 backpressure — stale ticks dropped, consumers never block
 - **Flat-file IPC** keeps the stack deployable on the cheapest VPS with no DB daemon
 - **Modular process tree** — any single component can crash and restart without taking down the rest
+- **Atomic writes** (`write-to-.tmp + os.replace`) — zero partial-read corruption risk
+
+---
+
+## ✦ X-Multiplier Signal Engine
+
+The proprietary signal framework used across all three asset classes:
+
+```
+buy_above  = prev_close + X          ← long entry trigger
+sell_below = prev_close − X          ← short entry trigger
+sl_buy     = buy_above  − X          ← long stop-loss
+sl_sell    = sell_below + X          ← short stop-loss
+t1..t5     = buy_above  + n×X        ← target ladder (5 levels)
+
+Retreat risk system:
+  65% of peak → warning
+  45% of peak → retreat activated
+  25% of peak → force-exit + re-anchor
+```
+
+BestX Optimizer (`best_x_trader.py`) backtests 32,000+ X variants per symbol and identifies the historically optimal configuration — running in < 1ms on GPU hardware.
 
 ---
 
@@ -178,283 +222,117 @@ No SaaS fees. No data vendor lock-in. You own every line of it.
 ## ✦ Installation
 
 ### Prerequisites
-
 - Python **3.10** or **3.11**
 - 4 GB RAM minimum (8 GB recommended with all scanners)
 - Internet access to `finance.yahoo.com`, `api.binance.com`, TradingView WebSocket
 - *(Optional)* NVIDIA GPU with CUDA 12 for accelerated sweeps
 
-### 1 — Clone the repository
+### Quick Start
 
 ```bash
-git clone https://github.com/your-username/algostack.git
-cd algostack
-```
+# 1. Clone
+git clone https://github.com/Ridhaant/algostack.git && cd algostack
 
-### 2 — Create a virtual environment
+# 2. Virtual environment
+python3 -m venv .venv && source .venv/bin/activate  # Linux/macOS
+# python -m venv .venv && .venv\Scripts\activate     # Windows
 
-```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# Linux / macOS
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3 — Install dependencies
-
-```bash
+# 3. Dependencies
 pip install -r requirements.txt
-```
 
-For GPU acceleration (NVIDIA only):
+# 4. Configure
+cp .env.example .env   # then set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_IDS
 
-```bash
-pip install numba cupy-cuda12x   # adjust CUDA version as needed
-```
-
-### 4 — Configure environment
-
-```bash
-cp .env.example .env   # Linux/macOS
-copy .env.example .env # Windows
-```
-
-Open `.env` and set at minimum:
-
-```ini
-TELEGRAM_BOT_TOKEN=<your-bot-token>
-TELEGRAM_CHAT_IDS=<your-chat-id>
-```
-
-See [Configuration](#-configuration) for the full reference.
-
-### 5 — Run pre-flight health check
-
-```bash
+# 5. Pre-flight check
 python health_check.py
-```
 
-All green ✅ ticks → you're ready.
-
-### 6 — Launch
-
-```bash
-# Windows
-start_all.bat
-
-# Linux / macOS
-chmod +x start_all.sh && ./start_all.sh
+# 6. Launch
+./start_all.sh          # Linux/macOS
+# start_all.bat         # Windows
 ```
 
 Open **http://localhost:8055** in your browser.
+
+For GPU acceleration (NVIDIA only):
+```bash
+pip install numba cupy-cuda12x
+```
 
 ---
 
 ## ✦ Configuration
 
-All settings live in `.env`. **Never hardcode secrets in any `.py` file.**
-
-### Minimum required
+All settings live in `.env`. **Never hardcode secrets in `.py` files.**
 
 ```ini
 # Telegram (required for alerts)
 TELEGRAM_BOT_TOKEN=1234567890:ABCdef...
 TELEGRAM_CHAT_IDS=123456789
 
-# SMTP for enterprise auth password reset (optional)
-ALGOSTACK_SMTP_USER=you@gmail.com
-ALGOSTACK_SMTP_PASSWORD=xxxx-xxxx-xxxx-xxxx
-ALGOSTACK_MAIL_FROM=you@gmail.com
-```
-
-### Trading parameters
-
-```ini
-CURRENT_X_MULTIPLIER=0.008       # equity signal width as fraction of price
-CAPITAL_PER_TRADE=100000         # INR per equity trade
-
+# Trading parameters
+CURRENT_X_MULTIPLIER=0.008
+CAPITAL_PER_TRADE=100000
 CRYPTO_X_MULTIPLIER=0.008
 CRYPTO_BUDGET_USDT=1065
-USDT_TO_INR=84.0                 # set 0 to auto-fetch live rate
 
+# Commodity X multipliers
 COMMODITY_GOLD_X=0.003430
 COMMODITY_SILVER_X=0.005145
-COMMODITY_NATURALGAS_X=0.000857
 COMMODITY_CRUDE_X=0.000602
-COMMODITY_COPPER_X=0.004000
+
+# Optional: Enable enterprise auth
+ALGOSTACK_AUTH_ENABLED=1
 ```
 
-### Optional API keys
+### Optional API Keys
 
-| Key | Purpose | Where to get |
-|---|---|---|
-| `GEMINI_API_KEY` | AI-powered analysis | [aistudio.google.com](https://aistudio.google.com/apikey) |
-| `ANTHROPIC_API_KEY` | Claude integration | [console.anthropic.com](https://console.anthropic.com/settings/keys) |
-| `NEWS_API_KEY` | Richer news feed | [newsapi.org](https://newsapi.org/register) |
-| `GNEWS_API_KEY` | GNews headlines | [gnews.io](https://gnews.io/) |
-| `REDDIT_CLIENT_ID` / `SECRET` | Reddit sentiment | [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) |
-| `TWITTER_BEARER_TOKEN` | Twitter sentiment | [developer.twitter.com](https://developer.twitter.com/) |
-| `NGROK_AUTHTOKEN_EQUITY` | Persistent tunnel | [dashboard.ngrok.com](https://dashboard.ngrok.com/) |
-| `GOOGLE_OAUTH_CLIENT_ID` / `SECRET` | Google SSO | Google Cloud Console |
-
-All optional keys gracefully disable their feature when absent.
+| Key | Purpose |
+|---|---|
+| `GEMINI_API_KEY` | AI-powered analysis |
+| `ANTHROPIC_API_KEY` | Claude integration |
+| `NEWS_API_KEY` | Richer news feed |
+| `REDDIT_CLIENT_ID/SECRET` | Reddit sentiment |
+| `NGROK_AUTHTOKEN_EQUITY` | Persistent tunnel |
+| `GOOGLE_OAUTH_CLIENT_ID/SECRET` | Google SSO |
 
 ---
 
 ## ✦ Dashboard Overview
 
-The unified dashboard (`unified_dash_v3.py`, port **:8055**) has four tabs:
-
 | Tab | Content |
 |---|---|
-| **Engine Lane** | Live P&L · Open positions · Full trade history (from authoritative JSONL logs) |
+| **Engine Lane** | Live P&L · Open positions · Full trade history (authoritative JSONL) |
 | **Research Lane** | Scanner sweep output · X-Optimizer results · BestX backtests |
 | **Crypto Lane** | Crypto positions · Level table · USDT & INR P&L |
 | **News Lane** | Aggregated headlines · VADER sentiment scores · Source breakdown |
 
-The news dashboard (`news_dashboard.py`, port **:8070**) runs as a separate process and aggregates from NewsAPI, GNews, Reddit, and Twitter.
-
----
-
-## ✦ Telegram Alerts
-
-AlgoStack sends structured push notifications for every significant event:
-
-- ✅ **Entry signal** — symbol, direction, price, levels
-- 🎯 **Exit signal** — target hit / stop hit / retreat
-- 📊 **EOD summary** — daily P&L across all three asset classes
-- ⚠️ **Feed health warning** — if any price feed goes stale > 60 seconds
-- 🔗 **Tunnel URL** — sent automatically each time the dashboard URL changes
-
-You can use a single bot for all three markets or configure separate bots per asset class.
-
----
-
-## ✦ Remote Access
-
-### Cloudflare Quick Tunnel *(zero-config, recommended)*
-
-```ini
-# .env
-ENABLE_TUNNEL=1
-```
-
-AlgoStack starts a `cloudflared` quick tunnel on launch and sends the HTTPS URL to Telegram. No Cloudflare account needed.
-
-### ngrok *(persistent subdomain)*
-
-```ini
-NGROK_AUTHTOKEN_EQUITY=your-authtoken
-```
-
-See `NGROK_LOCAL.md` for named tunnel setup that preserves the same URL across restarts.
+News dashboard (`news_dashboard.py`, port **:8070**) runs as a separate process aggregating from NewsAPI, GNews, Reddit, and Twitter.
 
 ---
 
 ## ✦ Docker
 
 ```bash
-# Build and start all services
-docker-compose up --build
-
-# Detached (background)
-docker-compose up -d
-
-# Stream logs
-docker-compose logs -f
+docker-compose up --build          # build and start
+docker-compose up -d               # detached
+docker-compose logs -f             # stream logs
 ```
 
 Exposed ports: **8055** (main dashboard) · **8070** (news dashboard)
 
-Pass secrets via a `.env` file alongside `docker-compose.yml`. See `DEPLOY_RENDER_NO_CARD.md` for free-tier deployment on **Render.com**.
+See `DEPLOY_RENDER_NO_CARD.md` for free-tier deployment on **Render.com**.
 
 ---
 
-## ✦ Health Check & Diagnostics
+## ✦ Open-Source Libraries
 
-```bash
-# Pre-flight check — run before market open
-python health_check.py
+Three architectural layers of AlgoStack are available as standalone open-source libraries:
 
-# Full diagnostic (dash, ports, ZMQ, data files)
-python diagnose_dash.py
-
-# Windows shortcut
-RUN_DIAGNOSE.bat
-```
-
-`alert_monitor.py` runs continuously and fires Telegram alerts if:
-- Any price feed is stale for > 60 seconds
-- The dashboard tunnel goes down
-- Open positions remain after EOD square-off time
-- P&L in the dashboard drifts from the trade log
-
----
-
-## ✦ Project Structure
-
-```
-AlgoStack/
-│
-├── .env.example                  ← Config template — copy to .env
-├── requirements.txt
-│
-├── ── Engines ────────────────────────────────────────────────────────
-├── Algofinal.py                  ← Equity price engine + signal generator
-├── commodity_engine.py           ← MCX commodity engine
-├── crypto_engine.py              ← Crypto engine (Binance WebSocket)
-│
-├── ── Scanners ───────────────────────────────────────────────────────
-├── scanner1.py / scanner2.py / scanner3.py
-├── commodity_scanner1/2/3.py
-├── crypto_scanner1/2/3.py
-├── sweep_core.py                 ← Shared Numba-JIT sweep kernel
-├── gpu_sweep.py                  ← CUDA-accelerated sweep (optional)
-├── best_x_trader.py              ← BestX optimizer / backtester
-│
-├── ── Dashboard ──────────────────────────────────────────────────────
-├── unified_dash_v3.py            ← Main Plotly-Dash UI (port 8055)
-├── news_dashboard.py             ← News & sentiment UI (port 8070)
-│
-├── ── Services ───────────────────────────────────────────────────────
-├── config.py                     ← Centralised config (reads .env)
-├── price_service.py              ← Shared price utilities
-├── ipc_bus.py                    ← ZMQ pub/sub helpers
-├── tg_async.py                   ← Async Telegram sender
-├── alert_monitor.py              ← Feed health + EOD cross-checks
-├── sentiment_analyzer.py         ← VADER sentiment wrapper
-├── market_calendar.py            ← NSE / MCX / crypto session logic
-│
-├── ── Auth ───────────────────────────────────────────────────────────
-├── enterprise_auth.py            ← Flask-Login + TOTP 2FA + Google OAuth
-│
-├── ── Infra ──────────────────────────────────────────────────────────
-├── autohealer.py                 ← Process watchdog / auto-restart
-├── wifi_keepalive.py             ← Network watchdog
-├── log_manager.py                ← Log rotation and cleanup
-├── health_check.py               ← Pre-flight diagnostic
-├── diagnose_dash.py              ← Full diagnostic report
-├── resource_plan.py              ← RAM/CPU usage planner
-├── process_affinity.py           ← CPU core pinning (Windows)
-│
-├── ── Launchers ──────────────────────────────────────────────────────
-├── start_all.bat / start_all.sh  ← Start everything
-├── start_optimised.bat           ← Start with CPU affinity
-│
-├── ── Container ──────────────────────────────────────────────────────
-├── Dockerfile
-├── docker-compose.yml
-├── render.yaml
-│
-└── ── Docs ───────────────────────────────────────────────────────────
-    ├── TRADING_LOGIC.md          ← Signal and level generation explained
-    ├── ENTERPRISE_AUTH.md        ← Auth system setup
-    ├── NGROK_LOCAL.md
-    └── DEPLOY_*.md
-```
+| Library | Description |
+|---|---|
+| **[nexus-price-bus](https://github.com/Ridhaant/nexus-price-bus)** | Multi-source ZMQ market data bus (NSE + Binance) |
+| **[vectorsweep](https://github.com/Ridhaant/vectorsweep)** | GPU-accelerated strategy parameter sweep engine |
+| **[sentitrade](https://github.com/Ridhaant/sentitrade)** | Real-time Indian financial news NLP pipeline |
 
 ---
 
@@ -462,61 +340,28 @@ AlgoStack/
 
 <details>
 <summary><strong>Dashboard shows stale prices / "No data"</strong></summary>
-
-- Confirm `Algofinal.py`, `commodity_engine.py`, and `crypto_engine.py` are running
-- Check that `levels/live_prices.json` exists and was updated recently
-- Run `python diagnose_dash.py` for a full diagnostic report
-
+Confirm all three engines are running. Check `levels/live_prices.json` is being updated. Run `python diagnose_dash.py`.
 </details>
 
 <details>
 <summary><strong>Telegram alerts not arriving</strong></summary>
-
-- Confirm `TELEGRAM_BOT_TOKEN` is set in `.env`
-- You must send at least one message to the bot first (Telegram requires this handshake)
-- Verify `TELEGRAM_CHAT_IDS` matches your ID from @userinfobot
-
+Confirm `TELEGRAM_BOT_TOKEN` is set. You must send at least one message to the bot first. Verify `TELEGRAM_CHAT_IDS` via @userinfobot.
 </details>
 
 <details>
 <summary><strong>ModuleNotFoundError on startup</strong></summary>
-
-- Activate your virtual environment: `.venv\Scripts\activate` (Windows) or `source .venv/bin/activate`
-- Re-run `pip install -r requirements.txt`
-
-</details>
-
-<details>
-<summary><strong>Port already in use</strong></summary>
-
-- Change `UNIFIED_DASH_PORT` (default 8055) or `NEWS_DASH_PORT` (default 8070) in `.env`
-
+Activate your virtual environment, then `pip install -r requirements.txt`.
 </details>
 
 <details>
 <summary><strong>ZMQ connection errors on startup</strong></summary>
-
-- Engines start in parallel; scanners may log ZMQ errors for the first few seconds until the price publisher is ready — **this is normal** and resolves automatically
-
+Normal — engines start in parallel; scanner ZMQ errors for the first few seconds resolve automatically once publishers are ready.
 </details>
 
 <details>
 <summary><strong>High CPU usage</strong></summary>
-
-- Use `start_optimised.bat` (Windows) to pin processes to specific cores
-- Reduce active scanners by commenting them out in `start_all.bat` / `start_all.sh`
-
+Use `start_optimised.bat` (Windows) to pin processes to specific cores. Reduce active scanners by commenting them out in the launcher.
 </details>
-
----
-
-## ✦ Security Notes
-
-- **Never hardcode tokens in `.py` files.** All secrets must live in `.env`, which is excluded by `.gitignore`
-- **Rotate any credentials that were ever committed** — once a secret is in git history it is compromised, even after deletion
-- Enable enterprise auth (`ALGOSTACK_AUTH_ENABLED=1`) before exposing the dashboard to the internet
-- Cloudflare Quick Tunnels generate a new URL on every restart; use a named tunnel for a stable URL
-- The dashboard binds to `0.0.0.0` by default; change to `127.0.0.1` in `unified_dash_v3.py` on shared machines when using a tunnel
 
 ---
 
@@ -524,17 +369,34 @@ AlgoStack/
 
 - [ ] Order routing integration (Zerodha Kite API)
 - [ ] Strategy backtesting framework with walk-forward validation
-- [ ] Mobile-optimised PWA dashboard skin
-- [ ] Multi-user portfolio aggregation
+- [ ] Mobile-optimised PWA dashboard
 - [ ] Options chain integration (NSE)
+- [ ] Multi-user portfolio aggregation
 
 ---
+
+## ✦ Security Notes
+
+- **Never hardcode tokens in `.py` files.** All secrets must live in `.env`
+- **Rotate any credentials ever committed** — once in git history, always compromised
+- Enable enterprise auth before exposing the dashboard to the internet
+- The dashboard binds to `0.0.0.0` by default; change to `127.0.0.1` on shared machines
+
+---
+
+## ✦ Author
 
 <div align="center">
 
----
+**[Ridhaant Ajoy Thackur](https://github.com/Ridhaant)**
 
-**Built with precision by [Ridhaant Ajoy Thackur](https://github.com/your-username)**
+*Systems Engineer · Quant Developer · FinTech Infrastructure*
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-ridhaant--thackur-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ridhaant-thackur-09947a1b0)
+[![Email](https://img.shields.io/badge/Email-redantthakur%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:redantthakur@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Ridhaant-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ridhaant)
+
+---
 
 © 2026 Ridhaant Ajoy Thackur. All rights reserved.
 AlgoStack™ is proprietary software. Unauthorised copying or distribution is prohibited.
