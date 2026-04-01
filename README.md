@@ -297,6 +297,20 @@ AlgoStack Core (30,595 lines)
 
 ---
 
+## 📂 Repository Structure (Files to Upload)
+
+When publishing this core platform repository, push the **entire `AlgoStack` folder** (excluding the extracted sub-libraries if they are hosted separately, and excluding the `job_automator` folder).
+
+Ensure these key platform files are included:
+- **Engines:** `Algofinal.py`, `commodity_engine.py`, `crypto_engine.py`
+- **Supervisor:** `autohealer.py`
+- **UI & Alerts:** `unified_dash_v3.py`, `tg_async.py`, `alert_monitor.py`
+- **Core Ops:** `sweep_core.py`, `x.py`, `news_dashboard.py`, `config.py`
+- **Infrastructure:** `docker-compose.yml`, `requirements.txt`, `.env.example`
+- **All Scanner Workers:** `*scanner*.py` and `gpu_sweep.py`
+
+---
+
 ## 🚀 Installation
 
 ```bash
@@ -348,6 +362,16 @@ Top 2.4% Nationally (JEE Mains 97.55 Percentile)
 
 </div>
 
+---
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=Ridhaant&show_icons=true&theme=chartreuse-dark&hide_border=true" height="180em" />
+<img src="https://github-readme-streak-stats.herokuapp.com?user=Ridhaant&theme=chartreuse-dark&hide_border=true" height="180em" />
+
+</div>
+
+---
 
 <div align="center">
 
