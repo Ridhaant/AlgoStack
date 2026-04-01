@@ -81,49 +81,55 @@ This is not a tutorial project. This is not a notebook. This is a **deployed, au
 ## 🏗️ System Architecture — 16 Supervised Processes
 
 ```mermaid
-graph TD
-    subgraph "🧠 Supervisor Layer"
-        AH["autohealer.py<br/><b>1,025 lines</b><br/>Market-calendar restarts<br/>CPU affinity pinning<br/>WiFi captive portal re-auth<br/>Tunnel failover<br/>3 deployment profiles"]
+graph LR
+    subgraph "🧠 Supervisor (L1)"
+        AH["autohealer.py<br/>(1,025 lines)"]
     end
 
-    subgraph "⚡ Execution Layer"
-        EQ["<b>Algofinal.py</b> — 302KB<br/>38 NSE equities<br/>X-levels, retreat risk<br/>EOD 15:11 IST"]
-        CO["<b>commodity_engine.py</b> — 54KB<br/>5 MCX commodities<br/>4-tier data fallback<br/>09:30 re-anchor"]
-        CR["<b>crypto_engine.py</b> — 60KB<br/>5 Binance pairs<br/>WS 1s + CoinGecko<br/>6h re-anchor"]
-        S1["Scanner 1 — Narrow<br/>1,000 X-vals × 38 syms"]
-        S2["Scanner 2 — Dual<br/>16,000 X-vals × 38 syms"]
-        S3["Scanner 3 — Wide + GPU<br/>32,000 X-vals × 38 syms<br/><b>CuPy CUDA < 1ms</b>"]
-        CS["Commodity Scanners ×3<br/>49,000 X-vals × 5 syms"]
-        KS["Crypto Scanners ×3<br/>49,000 X-vals × 5 syms"]
-        UD["<b>unified_dash_v3.py</b> — 373KB<br/>Plotly Dash UI<br/>Engine + Research lanes"]
-        TG["<b>tg_async.py</b><br/>3 Telegram bots<br/>Equity/Commodity/Crypto"]
-        WK["<b>wifi_keepalive.py</b><br/>Connectivity monitor"]
-        AM["<b>alert_monitor.py</b><br/>Feed staleness<br/>EOD P&L verification"]
+    subgraph "⚡ Execution Layer (L2 — 16 Processes)"
+        subgraph "Trading Engines"
+            EQ["Equity<br/>Algofinal.py"]
+            CO["Commodity<br/>engine.py"]
+            CR["Crypto<br/>engine.py"]
+        end
+        subgraph "Scanners (GPU/JIT)"
+            SC["6. Sweep Scanners<br/>(3 Equity, 3 MCX/Crypto)"]
+        end
+        subgraph "Observability"
+            UD["unified_dash_v3.py"]
+            TG["3 Telegram Bots"]
+            WK["wifi_keepalive.py"]
+            AM["alert_monitor.py"]
+        end
     end
 
-    subgraph "📡 Data Layer"
-        NPB["<b>nexus-price-bus</b><br/>ZMQ PUB/SUB<br/>tcp://127.0.0.1:28081<br/>Topics: equity, crypto, all<br/>SNDHWM=1000, LINGER=0"]
-        ST["<b>sentitrade</b><br/>4 RSS feeds<br/>VADER + 130 boosters<br/>SHA-256 dedup"]
-        VS["<b>vectorsweep</b><br/>CuPy → Numba → NumPy<br/>3-tier GPU fallback"]
-        RB["<b>Redis 7</b><br/>Price cache, trade events"]
-        PG["<b>PostgreSQL 16</b><br/>Trade store, migrations"]
+    subgraph "📡 Data Layer (L3)"
+        NPB["nexus-price-bus<br/>ZMQ PUB/SUB"]
+        ST["sentitrade<br/>NLP Pipeline"]
+        VS["vectorsweep<br/>CuPy / CUDA"]
+        DB["Redis & Postgres"]
     end
 
-    subgraph "🔒 Security Layer"
-        EA["<b>enterprise_auth.py</b><br/><b>1,459 lines</b><br/>TOTP 2FA (RFC 6238)<br/>RBAC + multi-tenant<br/>Google OAuth<br/>Append-only audit log"]
-        SA["<b>secrets_audit.py</b><br/>CI secret scanning<br/>Pre-commit hooks"]
+    subgraph "🔒 Security Perimeter"
+        EA["enterprise_auth.py<br/>(1,459 lines)"]
     end
 
-    AH -->|spawns, monitors, restarts| EQ & CO & CR & S1 & S2 & S3 & CS & KS & UD & TG & WK & AM
-    NPB -->|price ticks| EQ & CO & CR & S1 & S2 & S3 & CS & KS
-    ST -->|sentiment signals| UD & TG
-    VS -->|sweep results| S1 & S2 & S3 & CS & KS
-    EQ & CO & CR -->|trade events| UD & TG & AM
-    EA -->|auth gate| UD
+    AH -->|Spawns & Supervises| EQ
+    AH --> CO & CR & SC & UD & TG & WK & AM
 
-    style AH fill:#0d1117,stroke:#00FF41,stroke-width:3px,color:#00FF41
+    NPB -->|ZMQ Price Ticks| EQ & CO & CR & SC
+    ST -->|Sentiment| UD & TG
+    VS -->|Parallel Results| SC
+    
+    EQ & CO & CR -->|Trade Events| DB
+    DB --> UD & AM
+    
+    EA -->|TOTP 2FA + RBAC| UD
+
+    style AH fill:#0d1117,stroke:#00FF41,stroke-width:2px,color:#00FF41
     style NPB fill:#0d1117,stroke:#00D4FF,stroke-width:2px,color:#00D4FF
     style EA fill:#0d1117,stroke:#FF6B35,stroke-width:2px,color:#FF6B35
+    style SC fill:#0d1117,stroke:#76B900,stroke-width:2px,color:#76B900
 ```
 
 <details>
@@ -342,6 +348,16 @@ Top 2.4% Nationally (JEE Mains 97.55 Percentile)
 
 </div>
 
+---
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=Ridhaant&show_icons=true&theme=chartreuse-dark&hide_border=true" height="180em" />
+<img src="https://github-readme-streak-stats.herokuapp.com?user=Ridhaant&theme=chartreuse-dark&hide_border=true" height="180em" />
+
+</div>
+
+---
 
 <div align="center">
 
