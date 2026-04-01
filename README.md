@@ -348,16 +348,6 @@ Top 2.4% Nationally (JEE Mains 97.55 Percentile)
 
 </div>
 
----
-
-<div align="center">
-
-<img src="https://github-readme-stats.vercel.app/api?username=Ridhaant&show_icons=true&theme=chartreuse-dark&hide_border=true" height="180em" />
-<img src="https://github-readme-streak-stats.herokuapp.com?user=Ridhaant&theme=chartreuse-dark&hide_border=true" height="180em" />
-
-</div>
-
----
 
 <div align="center">
 
